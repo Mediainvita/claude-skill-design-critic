@@ -80,6 +80,69 @@ Wende die Checklisten aus JEDEM Skill auf die App an.
 Erstelle: docs/screenshots/{YYYY-MM-DD}_{HHMM}-critic/
 Speichere JEDEN Screenshot dort mit beschreibendem Namen.
 
+## Phase 0: Der Menschliche Blick (VOR allen technischen Checks)
+
+**WARUM DIESE PHASE EXISTIERT:** Der Critic hat 4 Runden lang WCAG-Kontraste und Viewport-Hoehen geprueft waehrend DEMO-Badges den Tab-Text ueberlagerten, Formulare komplett kaputt waren, und ueberall unnoetige Scrollbars sichtbar waren. Ein Mensch haette das in 2 Sekunden gesehen. Diese Phase erzwingt den menschlichen Blick BEVOR irgendein technischer Check laeuft.
+
+**REGEL: Phase 0 Findings haben IMMER Vorrang. Wenn Phase 0 Findings liefert, muessen diese ZUERST gemeldet werden, VOR allen Findings aus spaeteren Phasen.**
+
+### Schritt 0a: Full-Page Screenshot und Erstbeschreibung
+
+1. Oeffne die Seite bei 1920x1080
+2. Mache einen Full-Page-Screenshot
+3. BESCHREIBE was du siehst in natuerlicher Sprache, als waerst du ein Mensch der die App zum ersten Mal oeffnet. Schreibe MINDESTENS 5 Saetze:
+   - Was faellt ZUERST ins Auge (positiv oder negativ)?
+   - Was sieht professionell und fertig aus?
+   - Was sieht billig, kaputt, oder wie ein Prototyp aus?
+   - Wo wuerde ein Nicht-Techniker sofort sagen "das stimmt doch nicht"?
+   - Gibt es Bereiche die leer, ueberladen, oder unbalanciert wirken?
+
+**VERBOTEN in diesem Schritt:** Kontrast-Ratios berechnen, WCAG erwaehnen, CSS-Selektoren schreiben, Design-Tokens pruefen. NUR mit den Augen schauen.
+
+### Schritt 0b: Jeden interaktiven Bereich einzeln screenshotten
+
+Fuer JEDEN Tab, JEDES Panel, JEDEN aufklappbaren Bereich, JEDEN Zustand:
+
+1. Aktiviere den Bereich (klicke den Tab, oeffne das Panel, toggle den Zustand)
+2. Mache einen Screenshot NUR von diesem Bereich (nicht Full-Page)
+3. BESCHREIBE diesen Bereich in 2-3 Saetzen:
+   - Sieht er fertig und professionell aus?
+   - Ist irgendetwas visuell kaputt, abgeschnitten, oder ueberlagert?
+   - Passt er zum Rest der App oder faellt er raus?
+
+**WICHTIG:** JEDEN Tab einzeln. JEDEN Zustand einzeln. Nicht ueberspringen weil "sieht aehnlich aus". Jeder Bereich bekommt seinen eigenen Screenshot und seine eigene Beschreibung.
+
+### Schritt 0c: Gezieltes Muster-Scanning
+
+Gehe den Full-Page-Screenshot und JEDEN Einzel-Screenshot systematisch durch und pruefe auf diese spezifischen Muster. Fuer JEDES Muster: Schreibe explizit "GEFUNDEN" oder "NICHT GEFUNDEN".
+
+1. **Text-Ueberlagerung:** Wird irgendwo Text von Buttons, Badges, Icons, oder anderen Elementen ueberdeckt? Liegen Labels unter Badges? Liegen Buttons auf Text?
+
+2. **Abgeschnittene Formulare:** Sind Form-Labels vollstaendig lesbar? Haben Inputs genug Platz? Sind Label und Input visuell zusammengehoerig und aligned? Ist die Form-Struktur klar erkennbar?
+
+3. **Unnoetige Scrollbars:** Gibt es Scrollbars in kleinen Containern, Tabs, Panels, oder Cards wo der Inhalt eigentlich passen sollte? Scrollbars in uebergeordneten Containern (z.B. die ganze Seite) sind normal - Scrollbars in kleinen Unter-Containern sind fast immer ein Bug.
+
+4. **Sinnlose leere Flaechen:** Gibt es grosse leere Bereiche die keinen erkennbaren Zweck haben? Ist eine Haelfte der Ansicht leer waehrend die andere ueberladen ist? Ist das Layout unbalanciert?
+
+5. **Alignment-Fehler:** Sind Elemente die in einer Reihe stehen sollen tatsaechlich auf einer Linie? Sind gleichartige Elemente (Buttons, Labels, Inputs) konsistent positioniert? Stimmen die Zeilenhoehen ueberein?
+
+6. **"Billig"-Indikatoren:** Alles was den Eindruck erweckt "das ist ein schneller Prototyp und kein fertiges Produkt":
+   - Oversized oder schlecht positionierte Badges/Tags
+   - Inkonsistente Schriftgroessen auf engem Raum
+   - Elemente die sich gegenseitig in den Weg kommen
+   - Buttons die nicht wie Buttons aussehen oder umgekehrt
+   - Sichtbare CSS-Artefakte (doppelte Borders, falsche Ecken, Box-Model-Fehler)
+   - Formular-Layouts die chaotisch statt strukturiert wirken
+
+### Schritt 0d: Bewertung
+
+Fasse zusammen:
+- Wieviele der 6 Muster wurden gefunden?
+- IF 0 gefunden: Weiter zu Phase 1
+- IF 1+ gefunden: JEDER Fund wird SOFORT als Finding dokumentiert (Severity mindestens HIGH) BEVOR Phase 1 beginnt
+
+**ERINNERUNG:** Diese Phase existiert weil der Critic nachweislich VERSAGT hat, offensichtliche visuelle Probleme zu finden. Wenn Phase 0 keine Findings liefert, ist das entweder ein gutes Zeichen ODER der Critic macht den gleichen Fehler wieder. Im Zweifelsfall: lieber ein Finding zu viel als eins zu wenig.
+
 ## Phase 1: Navigation und Interaktion
 
 Starte Playwright mit headless:false. Navigiere SELBST.
