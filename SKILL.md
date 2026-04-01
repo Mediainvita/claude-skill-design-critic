@@ -143,6 +143,37 @@ Fasse zusammen:
 
 **ERINNERUNG:** Diese Phase existiert weil der Critic nachweislich VERSAGT hat, offensichtliche visuelle Probleme zu finden. Wenn Phase 0 keine Findings liefert, ist das entweder ein gutes Zeichen ODER der Critic macht den gleichen Fehler wieder. Im Zweifelsfall: lieber ein Finding zu viel als eins zu wenig.
 
+### Schritt 0e: Design-Logik-Check (Root Cause statt Symptom)
+
+**WARUM DIESE PHASE EXISTIERT:** Der Critic hat 7 Runden lang Pixel gemessen ohne EINMAL zu fragen WARUM etwas so dimensioniert ist. MZ-Labels 240px, Var-B Form 320px - gleichartige Elemente, verschiedene Breiten, nie hinterfragt. Footer collapsible aber trotzdem mit max-height beschraenkt. Phase-Headers mit justify-content:center UND position:absolute Buttons - MUSS kollidieren.
+
+**REGEL: Phase 0e Findings sind ROOT-CAUSE Findings. Sie ersetzen mehrere Symptom-Findings. Ein Root-Cause Finding mit Fix ist wertvoller als 5 Symptom-Findings.**
+
+#### 0e-1: Groessen-Konsistenz gleichartiger Elemente
+- Finde ALLE Elemente gleichen Typs (Labels, Forms, Cards, Inputs, Buttons)
+- Vergleiche ihre Groessen
+- IF gleichartige Elemente VERSCHIEDENE Groessen haben OHNE funktionalen/hierarchischen Grund → FINDING
+
+#### 0e-2: Collapsible/Toggleable - Kuenstliche Beschraenkungen
+- Fuer JEDES collapsible Element: Hat es im expanded-Zustand eine kuenstliche Beschraenkung (max-height/max-width)?
+- IF collapsible UND trotzdem kuenstlich beschraenkt → FINDING: "Das ist wie einen Regenschirm kleiner machen statt ihn zuzuklappen."
+
+#### 0e-3: Root Cause bei Layout-Problemen
+- Bei JEDEM Layout-Problem aus Phase 0a-0d: Gehe die Kausalkette RUECKWAERTS
+- Symptom → Warum → Warum → Root Cause
+- Fix MUSS die Root Cause adressieren, NICHT das Symptom
+- VERBOTEN: "Erhoehe max-height", "Fuege overflow:auto hinzu" (Symptom-Fixes)
+- ERLAUBT: "Entferne die feste Hoehe weil der Container collapsible ist"
+
+#### 0e-4: position:absolute Kollisionen
+- Fuer JEDES Element mit position:absolute: Ist der Parent display:flex/grid?
+- IF JA → Das Element nimmt NICHT am Flow teil und WIRD kollidieren
+- Fix: In den Flex/Grid-Flow integrieren statt position:absolute
+
+#### 0e Bewertung
+- IF 3+ Findings aus Phase 0a-0d auf die GLEICHE Root Cause zurueckfuehren: ERSETZE sie durch EIN Root-Cause Finding
+- Logik-Findings sind nie LOW (sie verursachen mehrere Symptome)
+
 ## Phase 1: Navigation und Interaktion
 
 Starte Playwright mit headless:false. Navigiere SELBST.

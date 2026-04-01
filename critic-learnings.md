@@ -4,16 +4,21 @@
 > Jeder Eintrag ist ein Design-Problem das der Critic verpasst hat.
 > Der Critic MUSS diese Checks zusaetzlich zu seinen Regeln ausfuehren.
 
-**Gesamt: 5 Learnings** | Letzte Aktualisierung: 2026-04-01
+**Gesamt: 8 Learnings** | Letzte Aktualisierung: 2026-04-01
 
 ## Schwachstellen-Statistik
 
 | Kategorie | Misses | Trend |
 |-----------|--------|-------|
-| Craft | 3 | ⚠ SYSTEMATISCH |
-| Layout | 2 | ↑ Wiederholt |
+| Craft | 5 | ⚠ SYSTEMATISCH |
+| Layout | 3 | ⚠ SYSTEMATISCH |
 
 ## Craft
+
+### #6: Hauptagent hat Findings als 'bekannt, global' abgetan statt sie zu fixen. Font-Sizes, Font-Families und BG-Colors Drift wurden ignoriert weil sie 'schon in vorherigen Runden gemeldet' wurden
+- **Severity:** HIGH
+- **Erkennung:** NIEMALS Findings als 'bekannt' abtun. Jedes Finding MUSS gefixt oder mit konkretem Grund abgelehnt werden (z.B. 'Material Icons ist eine Icon-Font, kein Text-Font'). 'Bekannt' ist KEIN Grund.
+- **Datum:** 2026-04-01
 
 ### #2: Critic fokussiert sich auf Viewport/Footer statt auf sichtbare Layout-Probleme in der Hauptansicht
 - **Severity:** MEDIUM
@@ -30,6 +35,11 @@
 - **Erkennung:** NEUE PHASE 0 im Critic-Prompt: VOR allen technischen Checks muss der Critic jeden sichtbaren Bereich der App BESCHREIBEN als waere er ein Mensch. Was sieht gut aus? Was sieht billig aus? Was wuerde ein Nicht-Techniker sofort als kaputt bezeichnen? Erst DANACH technische Checks.
 - **Datum:** 2026-04-01
 
+### #8: Critic hinterfragt nie die LOGIK hinter Design-Entscheidungen. Warum verschiedene Breiten fuer aehnliche Elemente? Warum Footer kleiner machen wenn er collapsible ist? Der Critic optimiert Symptome statt Ursachen zu hinterfragen.
+- **Severity:** CRITICAL
+- **Erkennung:** Neue Phase 0 Regel: Bei JEDER Groessen-Entscheidung fragen WARUM. Inkonsistente Breiten gleichartiger Elemente sind IMMER ein Finding. Wenn ein Element collapsible ist, muss die expanded-Groesse den Inhalt optimal zeigen - nicht kuenstlich beschraenkt werden.
+- **Datum:** 2026-04-01
+
 ## Layout
 
 ### #1: Checkboxen visuell kaputt - Grid interferiert mit Font, Spacing fehlt, Layout-Inkonsistenzen im gesamten Cockpit
@@ -40,6 +50,11 @@
 ### #4: Buttons ueberlappen Font-Text in Footer-Tabs, Scrollbars innerhalb kleiner Tabs sichtbar, Neue-Phase-Form komplett visuell kaputt mit abgeschnittenen Labels und zu engen Inputs
 - **Severity:** CRITICAL
 - **Erkennung:** Bei JEDEM Tab-Wechsel: Screenshot machen und VISUELL beschreiben was man sieht. Spezifisch pruefen: Ueberlagern sich Button-Texte mit anderen Elementen? Sind Scrollbars sichtbar die nicht sein sollten? Sind Form-Labels abgeschnitten? Passen Inputs visuell zur Umgebung?
+- **Datum:** 2026-04-01
+
+### #7: Phase-Header Datum-Text ueberlappt mit X-Delete-Buttons in allen MZ-Varianten-Tabs. 7 Runden lang nicht gefunden.
+- **Severity:** CRITICAL
+- **Erkennung:** Beim Tab-Screenshot ZOOME auf Header-Zeilen von Tabellen/Listen. Pruefe ob Text UND Buttons/Icons im gleichen Header-Bereich koexistieren und ob sie sich ueberlappen. Besonders bei position:absolute Elementen innerhalb von Flex-Containern.
 - **Datum:** 2026-04-01
 
 ---
@@ -62,4 +77,13 @@ Diese Checks sind aus verpassten Findings abgeleitet und MUESSEN bei jedem Revie
 
 5. **[CRITICAL]** NEUE PHASE 0 im Critic-Prompt: VOR allen technischen Checks muss der Critic jeden sichtbaren Bereich der App BESCHREIBEN als waere er ein Mensch. Was sieht gut aus? Was sieht billig aus? Was wuerde ein Nicht-Techniker sofort als kaputt bezeichnen? Erst DANACH technische Checks.
    _Kontext: Critic priorisiert technische Metriken (WCAG Kontrast, Viewport-Hoehe, Token-Compliance) ueber offensichtliche visuelle Probleme die jeder Mensch sofort sieht_
+
+6. **[HIGH]** NIEMALS Findings als 'bekannt' abtun. Jedes Finding MUSS gefixt oder mit konkretem Grund abgelehnt werden (z.B. 'Material Icons ist eine Icon-Font, kein Text-Font'). 'Bekannt' ist KEIN Grund.
+   _Kontext: Hauptagent hat Findings als 'bekannt, global' abgetan statt sie zu fixen. Font-Sizes, Font-Families und BG-Colors Drift wurden ignoriert weil sie 'schon in vorherigen Runden gemeldet' wurden_
+
+7. **[CRITICAL]** Beim Tab-Screenshot ZOOME auf Header-Zeilen von Tabellen/Listen. Pruefe ob Text UND Buttons/Icons im gleichen Header-Bereich koexistieren und ob sie sich ueberlappen. Besonders bei position:absolute Elementen innerhalb von Flex-Containern.
+   _Kontext: Phase-Header Datum-Text ueberlappt mit X-Delete-Buttons in allen MZ-Varianten-Tabs. 7 Runden lang nicht gefunden._
+
+8. **[CRITICAL]** Neue Phase 0 Regel: Bei JEDER Groessen-Entscheidung fragen WARUM. Inkonsistente Breiten gleichartiger Elemente sind IMMER ein Finding. Wenn ein Element collapsible ist, muss die expanded-Groesse den Inhalt optimal zeigen - nicht kuenstlich beschraenkt werden.
+   _Kontext: Critic hinterfragt nie die LOGIK hinter Design-Entscheidungen. Warum verschiedene Breiten fuer aehnliche Elemente? Warum Footer kleiner machen wenn er collapsible ist? Der Critic optimiert Symptome statt Ursachen zu hinterfragen._
 
